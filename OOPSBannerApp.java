@@ -1,51 +1,92 @@
-public class OOPSBannerApp {
-   public static String[] getOPattern() {
-        return new String[]{
-                " ***** ",
-                "*     *",
-                "*     *",
-                "*     *",
-                "*     *",
-                "*     *",
-                " ***** "
-        };
+public class UC7OOPSBannerApp {
+
+    static class CharacterPatternMap {
+
+        private char character;
+        private String[] pattern;
+
+        public CharacterPatternMap(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
+
+        public char getCharacter() {
+            return character;
+        }
+
+        public String[] getPattern() {
+            return pattern;
+        }
     }
 
-    public static String[] getPPattern() {
-        return new String[]{
-                "****** ",
-                "*     *",
-                "*     *",
-                "****** ",
-                "*      ",
-                "*      ",
-                "*      "
-        };
+    public static CharacterPatternMap[] createCharacterPatternMaps() {
+
+        CharacterPatternMap o = new CharacterPatternMap('O', new String[]{
+                " *** ",
+                "*   *",
+                "*   *",
+                "*   *",
+                "*   *",
+                "*   *",
+                " *** "
+        });
+
+        CharacterPatternMap p = new CharacterPatternMap('P', new String[]{
+                "**** ",
+                "*   *",
+                "*   *",
+                "**** ",
+                "*    ",
+                "*    ",
+                "*    "
+        });
+
+        CharacterPatternMap s = new CharacterPatternMap('S', new String[]{
+                " ****",
+                "*    ",
+                "*    ",
+                " *** ",
+                "    *",
+                "    *",
+                "**** "
+        });
+
+        return new CharacterPatternMap[]{o, p, s};
     }
 
-    public static String[] getSPattern() {
-        return new String[]{
-                " ***** ",
-                "*      ",
-                "*      ",
-                " ***** ",
-                "      *",
-                "      *",
-                " ***** "
-        };
+    public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
+
+        for (CharacterPatternMap map : charMaps) {
+            if (map.getCharacter() == ch) {
+                return map.getPattern();
+            }
+        }
+        return new String[]{" ", " ", " ", " ", " ", " ", " "};
+    }
+
+    public static void printMessage(String message, CharacterPatternMap[] charMaps) {
+
+        for (int row = 0; row < 7; row++) {
+
+            StringBuilder line = new StringBuilder();
+
+            for (char ch : message.toCharArray()) {
+
+                String[] pattern = getCharacterPattern(ch, charMaps);
+                line.append(pattern[row]).append("  ");
+
+            }
+
+            System.out.println(line);
+        }
     }
 
     public static void main(String[] args) {
 
-        String[] o = getOPattern();
-        String[] p = getPPattern();
-        String[] s = getSPattern();
+        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
 
-        for (int i = 0; i < o.length; i++) {
-            System.out.println(o[i] + "  " +
-                               o[i] + "  " +
-                               p[i] + "  " +
-                               s[i]);
-        }
+        String message = "OOPS";
+
+        printMessage(message, charMaps);
     }
 }
